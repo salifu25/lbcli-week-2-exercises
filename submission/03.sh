@@ -2,5 +2,5 @@
 # Add funds to the address.
 # Return only the Address
 segaddr=$(bitcoin-cli -regtest -rpcwallet=btrustwallet getnewaddress "" "bech32")
-bitcoin-cli -regtest generatetoaddress 1 $segaddr
+bitcoin-cli -regtest generatetoaddress 1 $segaddr > /dev/null
 echo $segaddr
