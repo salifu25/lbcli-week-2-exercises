@@ -18,4 +18,5 @@ rawtx=$(bitcoin-cli -rpcwallet=btrustwallet createrawtransaction \
     "'$change'": 0.03679108
   }''')
 
+
 echo $rawtx
