@@ -8,20 +8,9 @@ raw_tx="01000000000101c8b0928edebbec5e698d5f86d0474595d9f6a5b2e4e3772cd9d1005f23
 txid=$(bitcoin-cli -regtest decoderawtransaction "$raw_tx" | jq -r '.txid')
 
 recipient="2MvLcssW49n9atmksjwg2ZCMsEMsoj3pzUP"
-change=$(bitcoin-cli -regtest -rpcwallet=btrustwallet getnewaddress)
 
-rawtx=$(bitcoin-cli -regtest -rpcwallet=btrustwallet createrawtransaction \
-  '''[
-    { "txid": "'"$txid"'", "vout": 0 },
-    { "txid": "'"$txid"'", "vout": 1 }
-  ]''' \
-  '''{
-    "'"$recipient"'": 0.2,
-    "'"$change"'": 0.03678108
-  }''' \
-  0 \
-  true)
+rawtx=$(bitcoin-cli -regtest createrawtransaction \
+  '[{ "txid": "'"$txid"'", "vout": 0, "sequence": 1 }, { "txid": "'"$txid"'", "vout": 1, "sequence": 1 }]' \
+  '{"'"$recipient"'": 0.2}')
 
 echo "$rawtx"
-
-bitcoin-cli -regtest decoderawtransaction "$rawtx" | jq '.vin[].sequence'
