@@ -219,7 +219,7 @@ check_cmd "Transaction decoding" "DECODED_TX" "$DECODED_TX"
 VERIFY_RBF=$(echo "$DECODED_TX" | jq -r 'any(.vin[].sequence; . < 4294967294)')
 check_cmd "RBF verification" "VERIFY_RBF" "$VERIFY_RBF"
 
-VERIFY_PAYMENT=$(echo "$DECODED_TX" | jq -r --arg a "$PAYMENT_ADDRESS" '.vout[] | select(.scriptPubKey.address == $a) | .value')
+VERIFY_PAYMENT=$(echo "$DECODED_TX" | jq -r --arg a "$PAYMENT_ADDRESS" '.vout[] | select(.scriptPubKey.address == $a) | .value * 1')
 check_cmd "Payment verification" "VERIFY_PAYMENT" "$VERIFY_PAYMENT"
 
 VERIFY_CHANGE=$(echo "$DECODED_TX" | jq -r --arg a "$CHANGE_ADDRESS" '.vout[] | select(.scriptPubKey.address == $a) | .value')
